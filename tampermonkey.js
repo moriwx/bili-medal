@@ -2,7 +2,7 @@
 // @name         bilibili勋章常亮
 // @namespace    bilibili-medal
 // @version      0.5(moriwx ver.)
-// @description  保持bilibili直播粉丝勋章常亮
+// @description  直播间每日打卡
 // @author       HCLonely
 // @include      https://link.bilibili.com/p/center/index
 // @run-at       document-end
@@ -46,7 +46,7 @@
             await delay(parseInt(Math.random() * (10000 - 6000 + 1) + 6000, 10)) // 最好加上以防封禁
             $('#sign-progress').text(++i)
           }
-          $('#sign-progress').text(++i)
+          $('#sign-progress').text(++i) // 确认循环结束
         })
         $('.page-title').append(signBtn)
       }
@@ -96,7 +96,7 @@
     return new Promise(resolve => {
       GM_xmlhttpRequest({
         url: `https://api.live.bilibili.com/xlive/app-ucenter/v1/fansMedal/panel?page=1&page_size=1000&target_id=${$('#right-part a[href*="space.bilibili.com"]').attr('href').match(/[\d]+/)?.[0]}`,
-        // 由于前端未命名，此处page_size=${$('.tabnav-tip.plain').text()}是3个字符串拼接而得的值；target_id似乎并无影响
+        // 由于前端未命名，此处page_size=${$('.tabnav-tip.plain').text()}是3个字符串拼接而得的值；target_id是否为uid似乎并无影响
         method: 'get',
         responseType: 'json',
         onload: data => {
