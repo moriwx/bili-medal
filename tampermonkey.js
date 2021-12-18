@@ -43,7 +43,7 @@
           $('nav.tabnav').append(`<section class="tabnav-item"><div class="tabnav-content">总 ${rooms.length} 已签 <span id="sign-progress" class="tabnav-tip plain">${i}</span></div></section>`)
           for (const room of rooms) {
             await sendBiliMsg(room)
-            await delay(parseInt(Math.random() * (10000 - 6000 + 1) + 6000, 10)) // 最好加上以防封禁
+            await delay(parseInt(Math.random() * 2000 + 4000, 10)) // 最好加上以防封禁
             $('#sign-progress').text(++i)
           }
           $('#sign-progress').text(++i) // 确认循环结束
@@ -102,7 +102,7 @@
         onload: data => {
           if (data.response.code === 0) {
             resolve(data.response.data.list.filter(e => e.room_info?.room_id && e.medal.today_feed < 100 && !blackList.includes(e.room_info?.roomid)).map(e => [e.anchor_info?.nick_name, e.room_info?.room_id]).filter(e => e[1]))
-            // medal.today_feed小于100已经是最好的办法了，因此建议每天送礼前先签到
+            // medal.today_feed小于100已经是最好的办法了，因此建议每天送礼前先签到；另，此处不含special_list当前佩戴与最近获得
           } else {
             resolve(false)
           }
