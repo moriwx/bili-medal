@@ -96,7 +96,7 @@
     return new Promise(resolve => {
       GM_xmlhttpRequest({
         url: `https://api.live.bilibili.com/xlive/app-ucenter/v1/fansMedal/panel?page=1&page_size=1000&target_id=${$('#right-part a[href*="space.bilibili.com"]').attr('href').match(/[\d]+/)?.[0]}`,
-        // 由于前端未命名，此处page_size=${$('.tabnav-tip.plain').text()}是3个字符串拼接而得的值；target_id是否为uid似乎并无影响
+        // 由于前端未命名，此处page_size=${$('.tabnav-tip.plain').text()}是3个字符串拼接而得的值；target_id为当前房间所以最好是uid
         method: 'get',
         responseType: 'json',
         onload: data => {
