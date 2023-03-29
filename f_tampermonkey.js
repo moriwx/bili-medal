@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         bilibili直播间弹幕点赞
 // @namespace    bilibili-share
-// @version      0.1.1
+// @version      0.1.2
 // @description  在直播间发弹幕并点赞
 // @author       morisumi
 // @match        https://link.bilibili.com/p/center/index
@@ -31,7 +31,7 @@
 /* global $, Cookies */
 (function () {
   'use strict'
-  const blackList = []
+  const silentList = []
   const whiteList = []
   if (window.location.href === 'https://link.bilibili.com/p/center/index#/user-center/wearing-center/my-medal') {
     const find = setInterval(async () => {
@@ -47,7 +47,7 @@
             if (allRooms[i][1] <= 1000) { allRooms[i][1] = await toLongId(allRooms[i][1]) }
           } */
           let allRooms = await getroomsId_sp()
-          const rooms = allRooms.filter(e => !blackList.includes(e[1]))
+          const rooms = allRooms.filter(e => !silentList.includes(e[1]))
           let i = 0
           $('nav.tabnav').append(`<section class="tabnav-item"><div class="tabnav-content">${rooms.length} 的<span id="like-progress" class="tabnav-tip plain">0</span></div></section>`)
           for (const room of rooms) {
@@ -137,7 +137,7 @@
         responseType: 'json',
         onload: data => {
           if (data.response.code === 0) {
-            resolve(data.response.data.special_list.concat(data.response.data.list).filter(e => e.room_info?.room_id && !blackList.includes(e.room_info?.roomid)).map(e => [e.anchor_info?.nick_name, e.room_info?.room_id]).filter(e => e[1]))
+            resolve(data.response.data.special_list.concat(data.response.data.list).filter(e => e.room_info?.room_id).map(e => [e.anchor_info?.nick_name, e.room_info?.room_id]).filter(e => e[1]))
           } else {
             resolve(false)
           }
